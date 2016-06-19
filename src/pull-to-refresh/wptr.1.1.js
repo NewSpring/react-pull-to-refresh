@@ -136,6 +136,7 @@ export default function WebPullToRefresh() {
 	 * Set the CSS transform on the content element to move it on the screen.
 	 */
 	var _setContentPan = function() {
+	  bodyClass.add( 'ptr-pulling' );
 		// Use transforms to smoothly animate elements on desktop and mobile devices
 		options.contentEl.style.transform = options.contentEl.style.webkitTransform = 'translate3d( 0, ' + pan.distance + 'px, 0 )';
 		options.ptrEl.style.transform = options.ptrEl.style.webkitTransform = 'translate3d( 0, ' + ( pan.distance - options.ptrEl.offsetHeight ) + 'px, 0 )';
@@ -163,7 +164,9 @@ export default function WebPullToRefresh() {
 		}
 
 		e.preventDefault();
-
+		
+    bodyClass.remove( 'ptr-pulling' );
+    
 		options.contentEl.style.transform = options.contentEl.style.webkitTransform = '';
 		options.ptrEl.style.transform = options.ptrEl.style.webkitTransform = '';
 
