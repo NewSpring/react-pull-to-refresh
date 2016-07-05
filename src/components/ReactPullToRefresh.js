@@ -56,7 +56,7 @@ export default class ReactPullToRefresh extends Component {
       loading,
       onRefresh,
       resistance,
-      ...rest
+      ...rest,
     } = this.props;
 
     if (disabled) {
@@ -76,7 +76,8 @@ export default class ReactPullToRefresh extends Component {
               <span className="loading-ptr-1"></span>
               <span className="loading-ptr-2"></span>
               <span className="loading-ptr-3"></span>
-           </div>}
+            </div>
+          }
         </div>
         <div ref="refresh" className="refresh-view">
           {children}
