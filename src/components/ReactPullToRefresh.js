@@ -46,29 +46,40 @@ export default class ReactPullToRefresh extends Component {
   }
 
   render() {
-    if (this.props.disabled) {
+    const {
+      children,
+      disabled,
+      distanceToRefresh,
+      hammerOptions,
+      icon,
+      loading,
+      onRefresh,
+      resistance,
+      ...rest,
+    } = this.props;
+
+    if (disabled) {
       return (
-        <div {...this.props}>
-          {this.props.children}
+        <div {...rest}>
+          {children}
         </div>
       );
     }
-    let icon = this.props.icon || <span className="genericon genericon-next"></span>;
-    let loading = this.props.loading || (
-      <div className="loading">
-        <span className="loading-ptr-1"></span>
-        <span className="loading-ptr-2"></span>
-        <span className="loading-ptr-3"></span>
-      </div>
-    );
+
     return (
-      <div {...this.props}>
+      <div {...rest}>
         <div ref="ptr" className="ptr-element">
-          {icon}
-          {loading}
+          {icon || <span className="genericon genericon-next"></span>}
+          {loading ||
+            <div className="loading">
+              <span className="loading-ptr-1"></span>
+              <span className="loading-ptr-2"></span>
+              <span className="loading-ptr-3"></span>
+            </div>
+          }
         </div>
         <div ref="refresh" className="refresh-view">
-          {this.props.children}
+          {children}
         </div>
       </div>
     );

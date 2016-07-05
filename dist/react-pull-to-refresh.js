@@ -116,6 +116,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 
+	function _objectWithoutProperties(obj, keys) {
+	  var target = {};for (var i in obj) {
+	    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+	  }return target;
+	}
+
 	function _classCallCheck(instance, Constructor) {
 	  if (!(instance instanceof Constructor)) {
 	    throw new TypeError('Cannot call a class as a function');
@@ -192,12 +198,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      if (this.props.disabled) {
-	        return _react2['default'].createElement('div', this.props, this.props.children);
+	      var _props = this.props;
+	      var children = _props.children;
+	      var disabled = _props.disabled;
+	      var distanceToRefresh = _props.distanceToRefresh;
+	      var hammerOptions = _props.hammerOptions;
+	      var icon = _props.icon;
+	      var loading = _props.loading;
+	      var onRefresh = _props.onRefresh;
+	      var resistance = _props.resistance;
+
+	      var rest = _objectWithoutProperties(_props, ['children', 'disabled', 'distanceToRefresh', 'hammerOptions', 'icon', 'loading', 'onRefresh', 'resistance']);
+
+	      if (disabled) {
+	        return _react2['default'].createElement('div', rest, children);
 	      }
-	      var icon = this.props.icon || _react2['default'].createElement('span', { className: 'genericon genericon-next' });
-	      var loading = this.props.loading || _react2['default'].createElement('div', { className: 'loading' }, _react2['default'].createElement('span', { className: 'loading-ptr-1' }), _react2['default'].createElement('span', { className: 'loading-ptr-2' }), _react2['default'].createElement('span', { className: 'loading-ptr-3' }));
-	      return _react2['default'].createElement('div', this.props, _react2['default'].createElement('div', { ref: 'ptr', className: 'ptr-element' }, icon, loading), _react2['default'].createElement('div', { ref: 'refresh', className: 'refresh-view' }, this.props.children));
+
+	      return _react2['default'].createElement('div', rest, _react2['default'].createElement('div', { ref: 'ptr', className: 'ptr-element' }, icon || _react2['default'].createElement('span', { className: 'genericon genericon-next' }), loading || _react2['default'].createElement('div', { className: 'loading' }, _react2['default'].createElement('span', { className: 'loading-ptr-1' }), _react2['default'].createElement('span', { className: 'loading-ptr-2' }), _react2['default'].createElement('span', { className: 'loading-ptr-3' }))), _react2['default'].createElement('div', { ref: 'refresh', className: 'refresh-view' }, children));
 	    }
 	  }]);
 
