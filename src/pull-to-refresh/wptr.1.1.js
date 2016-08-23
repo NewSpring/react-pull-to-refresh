@@ -136,6 +136,7 @@ export default function WebPullToRefresh() {
 	 * Set the CSS transform on the content element to move it on the screen.
 	 */
 	var _setContentPan = function() {
+    bodyClass.remove( 'ptr-reset' );
 	  bodyClass.add( 'ptr-pulling' );
 		// Use transforms to smoothly animate elements on desktop and mobile devices
 		options.contentEl.style.transform = options.contentEl.style.webkitTransform = 'translate3d( 0, ' + pan.distance + 'px, 0 )';
