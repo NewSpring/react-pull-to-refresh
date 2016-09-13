@@ -82,6 +82,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
+
 	var _createClass = (function () {
 	  function defineProperties(target, props) {
 	    for (var i = 0; i < props.length; i++) {
@@ -171,6 +181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        (0, _pullToRefreshWptr112['default'])().init({
 	          contentEl: this.refs.refresh,
 	          ptrEl: this.refs.ptr,
+	          bodyEl: this.refs.body,
 	          distanceToRefresh: this.props.distanceToRefresh || undefined,
 	          loadingFunction: this.handleRefresh,
 	          resistance: this.props.resistance || undefined,
@@ -214,7 +225,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _react2['default'].createElement('div', rest, children);
 	      }
 
-	      return _react2['default'].createElement('div', rest, _react2['default'].createElement('div', { ref: 'ptr', className: 'ptr-element' }, icon || _react2['default'].createElement('span', { className: 'genericon genericon-next' }), loading || _react2['default'].createElement('div', { className: 'loading' }, _react2['default'].createElement('span', { className: 'loading-ptr-1' }), _react2['default'].createElement('span', { className: 'loading-ptr-2' }), _react2['default'].createElement('span', { className: 'loading-ptr-3' }))), _react2['default'].createElement('div', { ref: 'refresh', className: 'refresh-view' }, children));
+	      return _react2['default'].createElement('div', _extends({ ref: 'body' }, rest), _react2['default'].createElement('div', { ref: 'ptr', className: 'ptr-element' }, icon || _react2['default'].createElement('span', { className: 'genericon genericon-next' }), loading || _react2['default'].createElement('div', { className: 'loading' }, _react2['default'].createElement('span', { className: 'loading-ptr-1' }), _react2['default'].createElement('span', { className: 'loading-ptr-2' }), _react2['default'].createElement('span', { className: 'loading-ptr-3' }))), _react2['default'].createElement('div', { ref: 'refresh', className: 'refresh-view' }, children));
 	    }
 	  }]);
 
@@ -275,6 +286,9 @@ return /******/ (function(modules) { // webpackBootstrap
 			// ID of the element holding pull to refresh loading area
 			ptrEl: 'ptr',
 
+			// wrapper element holding scollable
+			bodyEl: document.body,
+
 			// Number of pixels of panning until refresh
 			distanceToRefresh: 70,
 
@@ -304,7 +318,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		/**
 	  * Easy shortener for handling adding and removing body classes.
 	  */
-		var bodyClass = document.body.classList;
+		var bodyClass = defaults.bodyEl.classList;
 
 		/**
 	  * Initialize pull to refresh, hammer, and bind pan events.
@@ -316,6 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			options = {
 				contentEl: params.contentEl || document.getElementById(defaults.contentEl),
 				ptrEl: params.ptrEl || document.getElementById(defaults.ptrEl),
+				bodyEl: params.bodyEl || defaults.bodyEl,
 				distanceToRefresh: params.distanceToRefresh || defaults.distanceToRefresh,
 				loadingFunction: params.loadingFunction || defaults.loadingFunction,
 				resistance: params.resistance || defaults.resistance,
@@ -325,6 +340,8 @@ return /******/ (function(modules) { // webpackBootstrap
 			if (!options.contentEl || !options.ptrEl) {
 				return false;
 			}
+
+			bodyClass = options.bodyEl.classList;
 
 			var h = new _hammerjs2['default'](options.contentEl, options.hammerOptions);
 
@@ -342,7 +359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  * @param {object} e - Event object
 	  */
 		var _panStart = function _panStart(e) {
-			pan.startingPositionY = document.body.scrollTop;
+			pan.startingPositionY = options.bodyEl.scrollTop;
 
 			if (pan.startingPositionY === 0) {
 				pan.enabled = true;
@@ -427,7 +444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			options.contentEl.style.transform = options.contentEl.style.webkitTransform = '';
 			options.ptrEl.style.transform = options.ptrEl.style.webkitTransform = '';
 
-			if (document.body.classList.contains('ptr-refresh')) {
+			if (options.bodyEl.classList.contains('ptr-refresh')) {
 				_doLoading();
 			} else {
 				_doReset();
@@ -468,10 +485,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 			var bodyClassRemove = function bodyClassRemove() {
 				bodyClass.remove('ptr-reset');
-				document.body.removeEventListener('transitionend', bodyClassRemove, false);
+				options.bodyEl.removeEventListener('transitionend', bodyClassRemove, false);
 			};
 
-			document.body.addEventListener('transitionend', bodyClassRemove, false);
+			options.bodyEl.addEventListener('transitionend', bodyClassRemove, false);
 		};
 
 		return {
